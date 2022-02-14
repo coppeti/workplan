@@ -122,3 +122,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'email/'
 
 DEFAULT_DOMAIN = str(os.getenv('DEFAULT_DOMAIN'))
+
+AUTH_USER_MODEL = 'accounts.User'
