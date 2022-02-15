@@ -5,5 +5,11 @@
 {% block content %}
 
     <h1>WORKPLAN INFRASTRUKTUR</h1>
+    <p>Welcome {% if user.is_authenticated %}
+                    {{ user.first_name|title }} {{ user.last_name|upper }}
+                {% else %}
+                    dear visitor
+                {% endif %}
+    </p>
 
 {% endblock content %}

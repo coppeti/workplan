@@ -9,6 +9,7 @@ class User(AbstractUser):
         ('Admin', 'Administrator'),
         ('Super', 'Supervisor'),
     ]
+    email = models.EmailField(unique=True)
     birthday = models.DateField()
     team_role = models.CharField(max_length=200, choices=TEAM_ROLE_CHOICES, default='Visitor')
     is_active = models.BooleanField(default=False)
