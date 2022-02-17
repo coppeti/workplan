@@ -122,9 +122,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'email/'
 
-DEFAULT_DOMAIN = str(os.getenv('DEFAULT_DOMAIN'))
-
+# Accounts and users management
 AUTH_USER_MODEL = 'accounts.User'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+PASSWORD_RESET_TIMEOUT_DAYS = 2
+
+# Domain and URL
+DEFAULT_DOMAIN = str(os.getenv('DEFAULT_DOMAIN'))
