@@ -49,7 +49,7 @@ class ActivateAccount(TemplateView):
             user.is_active = True
             user.save()
             login(request, user)
-            messages.success(request, "Your account is now validate!\nand you are logged in")
+            messages.success(request, "Your account is now validate and you are logged in")
             return redirect('home')
 
         messages.error(request, "Invalid token!")
