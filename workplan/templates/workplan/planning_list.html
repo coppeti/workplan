@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Workplan | Activities{% endblock title %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th>user</th>
+            <th>activity</th>
+            <th>start date</th>
+            <th>stop date</th>
+            <th>confirmed</th>
+            <th>edit</th>
+        </tr>
+        {% for activity in planning_list %}
+            <tr>
+                <td>{{ activity.user_id }}</td>
+                <td>{{ activity.activity_id }}</td>
+                <td>{{ activity.date_start }}</td>
+                <td>{{ activity.date_stop }}</td>
+                <td>{{ activity.confirmed }}</td>
+                <td><a href="{% url 'edit_activity' activity.pk %}">edit</a></td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+
+{% endblock content %}
