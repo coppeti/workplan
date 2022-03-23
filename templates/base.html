@@ -5,6 +5,7 @@
     <title>{% block title %}Workplan{% endblock title %}</title>
 </head>
 <body>
+{% now "Y" as this_year %}
 {% include 'navigation.html' %}
 
 {% if messages %}
