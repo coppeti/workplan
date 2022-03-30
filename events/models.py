@@ -4,15 +4,15 @@ from accounts.models import User
 
 
 class Activity(models.Model):
-    name = models.CharField(max_length=100)
-    short_name = models.CharField(max_length=3, blank=True)
+    name = models.CharField(max_length=100, unique=True)
+    short_name = models.CharField(max_length=3, blank=True, unique=True)
 
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
         self.name = self.name.lower()
-        self.short_name = self.name[:3].upper()
+        self.short_name = "".join(letter[0].upper() for letter in self.name.split())
 
         super().save(*args, **kwargs)
 
