@@ -26,6 +26,13 @@ class Event(models.Model):
     changed_on = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
+    class Meta:
+        permissions = (
+            ('all_private_event', 'Add, del, edit private event'),
+            ('all_event', 'Add, del, edit all event'),
+            ('edit_team_event', 'Edit team event'),
+        )
+
 
 class Diary(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.PROTECT)

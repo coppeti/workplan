@@ -1,7 +1,9 @@
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Permission
+from django.contrib import admin
 from django.core.validators import RegexValidator
 from django.db import models
+
 
 LOW_LETTER_REGEX = RegexValidator(r'^[a-z]{3,}$')
 
@@ -23,19 +25,12 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    TEAM_ROLE_CHOICES = [
-        ('Visitor', 'Visitor'),
-        ('User', 'User'),
-        ('Admin', 'Administrator'),
-        ('Super', 'Supervisor'),
-    ]
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     username = models.CharField(max_length=100, unique=True, validators=[LOW_LETTER_REGEX],
                                 help_text="Minimum 4 low letters")
     email = models.EmailField(unique=True)
     birthday = models.DateField(null=True)
-    team_role = models.CharField(max_length=100, choices=TEAM_ROLE_CHOICES, default='Visitor')
     is_active = models.BooleanField(default=False)
 
     objects = UserManager()
@@ -48,3 +43,5 @@ class User(AbstractUser):
         self.last_name = self.last_name.lower()
 
         super().save(*args, **kwargs)
+
+

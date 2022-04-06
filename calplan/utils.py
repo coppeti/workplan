@@ -7,7 +7,7 @@ from django.db.models import Q
 from accounts.models import User
 from events.models import Event
 
-locale.setlocale(locale.LC_ALL, 'fr_FR')
+locale.setlocale(locale.LC_ALL, 'en_GB')
 
 
 def a_year(which):

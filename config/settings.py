@@ -101,11 +101,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'fr-CH'
+LANGUAGE_CODE = 'en-GB'
 
 TIME_ZONE = 'CET'
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 
@@ -133,7 +135,7 @@ LOGOUT_REDIRECT_URL = 'home'
 PASSWORD_RESET_TIMEOUT_DAYS = 2
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 300
+SESSION_COOKIE_AGE = 24 * 60 * 60
 
 # Domain and URL
 DEFAULT_DOMAIN = str(os.getenv('DEFAULT_DOMAIN'))
