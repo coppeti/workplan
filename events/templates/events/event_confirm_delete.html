@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Workplan | Delete{% endblock title %}
+
+{% block content %}
+
+    <form method="post">
+        <p>Are you sure you want to delete <br/>
+            {{ object.user_id }}, {{ object.activity_id|title }}, {{ object.date_start }} - {{ object.date_stop }}?</p>
+        {% csrf_token %}
+
+        {{ form }}
+        <input type="submit" value="Delete">
+
+    </form>
+
+{% endblock content %}

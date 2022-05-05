@@ -9,6 +9,8 @@ from events.models import Event
 
 locale.setlocale(locale.LC_ALL, 'en_GB')
 
+be_holidays = holidays.CH(subdiv='BE', years=date.today().year)
+
 
 def a_year(which):
     if which == 'this':
@@ -47,9 +49,12 @@ def user_line(cal, theuser, theyear, themonth):
             a(f'<td>')
             for d, act in user_plan.items():
                 if month_date.strftime("%Y-%m-%d") in d:
-                    if act == 'P' and month_date.weekday() == 5:
+                    if act == 'F' and (month_date.weekday() == 5 or month_date.weekday() == 6 or
+                                       month_date in be_holidays):
+                        a('')
+                    elif act == 'P' and month_date.weekday() == 5:
                         a('PSA')
-                    elif act == 'P' and month_date.weekday() == 6:
+                    elif (act == 'P' and month_date.weekday() == 6) or (act == 'P' and month_date in be_holidays):
                         a('PSO')
                     else:
                         a(act)

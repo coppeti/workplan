@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+<!-- To check the group user -->
 {% load event_extras %}
 
 {% block title %}Workplan | Activities{% endblock title %}
@@ -12,6 +13,7 @@
             <th>stop date</th>
             <th>confirmed</th>
             <th>edit</th>
+            <th>delete</th>
         </tr>
         {% for event in event_list %}
             <tr>
@@ -24,6 +26,12 @@
                         <a href="{% url 'edit_event' event.pk %}">edit</a>
                     {% else %}
                         edit
+                    {% endif %}
+                </td>
+                <td>{% if event.activity_id|lower != "pikett" and event.activity_id|lower != "dispatcher" and event.user_id == request.user or user|is_group:"Administrator" or user.is_superuser %}
+                        <a href="{% url 'del_event' event.pk %}">delete</a>
+                    {% else %}
+                        delete
                     {% endif %}
                 </td>
             </tr>

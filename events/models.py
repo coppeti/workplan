@@ -1,4 +1,6 @@
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Q
 
 from accounts.models import User
 
@@ -22,7 +24,7 @@ class Event(models.Model):
     activity_id = models.ForeignKey(Activity, on_delete=models.PROTECT)
     date_start = models.DateField()
     date_stop = models.DateField()
-    confirmed = models.BooleanField(default=False)
+    confirmed = models.BooleanField(default=False, blank=True)
     changed_on = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
@@ -32,6 +34,11 @@ class Event(models.Model):
             ('all_event', 'Add, del, edit all event'),
             ('edit_team_event', 'Edit team event'),
         )
+
+    def clean(self):
+        # Check that the end date is after the start date
+        if self.date_stop < self.date_start:
+            raise ValidationError("End date before start date.")
 
 
 class Diary(models.Model):

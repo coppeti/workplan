@@ -1,10 +1,15 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import ValidationError
 from django.db.models import Q
-from django.views.generic import CreateView, UpdateView, ListView
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 
 from calplan.utils import a_year
-from .forms import CreateEventForm
+from .forms import CreateEventForm, EditEventForm
 from .models import Event
 
 
@@ -18,7 +23,7 @@ class NewEvent(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'events/event_form.html'
     form_class = CreateEventForm
     success_url = '/event'
-    success_message = 'Your request has been registered and will soon be validated.'
+    # success_message = 'Your request has been registered and will soon be validated.'
 
     def get_form_kwargs(self):
         kwargs = super(NewEvent, self).get_form_kwargs()
@@ -26,11 +31,30 @@ class NewEvent(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return kwargs
 
     def form_valid(self, form):
-        form.instance.created_by = self.request.user
+        if self.request.user.groups == "Administrator":
+            messages.success(self.request, "Your request has been registered.")
+        else:
+            messages.success(self.request, "Your request has been registered and will soon be validated.")
+        super().form_valid(form)
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class EditEvent(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Event
+    template_name = 'events/event_form.html'
+    form_class = EditEventForm
+    success_url = '/event'
+    success_message = 'Event has been updated.'
+
+    def get_form_kwargs(self):
+        kwargs = super(EditEvent, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+    def form_valid(self, form):
         return super().form_valid(form)
 
 
-class EditEvent(LoginRequiredMixin, UpdateView):
+class DelEvent(DeleteView):
     model = Event
-    fields = ['user_id', 'activity_id', 'date_start', 'date_stop']
-    success_url = '/event'
+    success_url = reverse_lazy('event_index')
